@@ -16,7 +16,6 @@ import javax.sql.DataSource;
 public class AlbumsUpdateScheduler {
 
     private static final long SECONDS = 1000;
-    private static final long MINUTES = 60 * SECONDS;
 
     private final JdbcTemplate jdbcTemplate;
     private final AlbumsUpdater albumsUpdater;
@@ -27,14 +26,14 @@ public class AlbumsUpdateScheduler {
         this.albumsUpdater = albumsUpdater;
     }
 
-    @Scheduled(initialDelay = 15 * SECONDS, fixedRate = 2 * MINUTES)
+    @Scheduled(initialDelay = 5 * SECONDS, fixedRate = 15 * SECONDS)
     public void run() {
         try {
-
             logger.debug("Checking for albums task to start");
 
             if (startAlbumSchedulerTask()) {
                 logger.debug("Starting albums update");
+
                 albumsUpdater.update();
 
                 logger.debug("Finished albums update");
@@ -49,10 +48,10 @@ public class AlbumsUpdateScheduler {
 
     private boolean startAlbumSchedulerTask() {
         int updatedRows = jdbcTemplate.update(
-                "UPDATE album_scheduler_task" +
-                        " SET started_at = now()" +
-                        " WHERE started_at IS NULL" +
-                        " OR started_at < date_sub(now(), INTERVAL 2 MINUTE)"
+            "UPDATE album_scheduler_task" +
+                " SET started_at = now()" +
+                " WHERE started_at IS NULL" +
+                " OR started_at < date_sub(now(), INTERVAL 2 MINUTE)"
         );
 
         return updatedRows > 0;
