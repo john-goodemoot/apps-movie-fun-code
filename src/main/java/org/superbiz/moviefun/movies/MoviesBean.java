@@ -47,7 +47,7 @@ public class MoviesBean {
     }
 
     @Transactional
-    public void editMovie(Movie movie) {
+    public void updateMovie(Movie movie) {
         entityManager.merge(movie);
     }
 
