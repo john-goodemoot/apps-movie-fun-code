@@ -24,7 +24,6 @@ public class S3Store implements BlobStore {
         this.bucketName = bucketName;
     }
 
-
     @Override
     public void put(Blob blob) throws IOException {
         s3.putObject(bucketName, blob.name, blob.inputStream, new ObjectMetadata());
@@ -52,8 +51,8 @@ public class S3Store implements BlobStore {
     @Override
     public void deleteAll() {
         List<S3ObjectSummary> summaries = s3
-            .listObjects(bucketName)
-            .getObjectSummaries();
+                .listObjects(bucketName)
+                .getObjectSummaries();
 
         for (S3ObjectSummary summary : summaries) {
             s3.deleteObject(bucketName, summary.getKey());

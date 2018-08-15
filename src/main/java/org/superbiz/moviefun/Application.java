@@ -15,12 +15,13 @@ import org.superbiz.moviefun.blobstore.ServiceCredentials;
 @SpringBootApplication
 public class Application {
 
-    public static void main(String... args) {
+    public static void main(String[] args) {
+
         SpringApplication.run(Application.class, args);
     }
 
     @Bean
-    public ServletRegistrationBean actionServletRegistration(ActionServlet actionServlet) {
+    public ServletRegistrationBean servletRegistrationBean(ActionServlet actionServlet){
         return new ServletRegistrationBean(actionServlet, "/moviefun/*");
     }
 
@@ -33,6 +34,7 @@ public class Application {
     public BlobStore blobStore(
         ServiceCredentials serviceCredentials,
         @Value("${vcap.services.photo-storage.credentials.endpoint:#{null}}") String endpoint
+
     ) {
         String photoStorageAccessKeyId = serviceCredentials.getCredential("photo-storage", "user-provided", "access_key_id");
         String photoStorageSecretKey = serviceCredentials.getCredential("photo-storage", "user-provided", "secret_access_key");

@@ -3,6 +3,7 @@ package org.superbiz.moviefun.albums;
 import org.apache.tika.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -26,7 +27,6 @@ import static org.springframework.http.MediaType.IMAGE_JPEG_VALUE;
 public class AlbumsController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
-
     private final AlbumsBean albumsBean;
     private final BlobStore blobStore;
 
@@ -57,7 +57,7 @@ public class AlbumsController {
                 tryToUploadCover(albumId, uploadedFile);
 
             } catch (IOException e) {
-                logger.error("There was an error while uploading album cover", e);
+                logger.warn("Error while uploading album cover", e);
             }
         }
 
@@ -86,9 +86,9 @@ public class AlbumsController {
 
     private void tryToUploadCover(@PathVariable Long albumId, @RequestParam("file") MultipartFile uploadedFile) throws IOException {
         Blob coverBlob = new Blob(
-            getCoverBlobName(albumId),
-            uploadedFile.getInputStream(),
-            uploadedFile.getContentType()
+                getCoverBlobName(albumId),
+                uploadedFile.getInputStream(),
+                uploadedFile.getContentType()
         );
 
         blobStore.put(coverBlob);
