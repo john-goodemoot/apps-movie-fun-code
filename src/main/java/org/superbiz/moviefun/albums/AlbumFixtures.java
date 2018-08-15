@@ -1,5 +1,6 @@
 package org.superbiz.moviefun.albums;
 
+
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.dataformat.csv.CsvMapper;
 import com.fasterxml.jackson.dataformat.csv.CsvSchema;
@@ -9,6 +10,7 @@ import java.util.List;
 
 import static com.fasterxml.jackson.dataformat.csv.CsvSchema.ColumnType.NUMBER;
 import static org.superbiz.moviefun.CsvUtils.readFromCsv;
+
 
 @Component
 public class AlbumFixtures {
